@@ -27,6 +27,7 @@ pipeline{
                         steps{
                             sh "trivy fs --format table -o fs-report.html ."
                         }
+                }
                         
                 stage('SonarQube'){
                         steps{
@@ -72,8 +73,6 @@ pipeline{
                         }
                 }               
             
-        }
-
         }
 
         post{
