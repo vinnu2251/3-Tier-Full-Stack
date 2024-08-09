@@ -43,7 +43,7 @@ pipeline{
                                 script {
                                         withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') 
                                         {
-                                                sh 'sudo docker build -t vinay7944/camp:latest .'
+                                                sh 'docker build -t vinay7944/camp:latest .'
                                         }
                                 }
                         }
@@ -59,7 +59,7 @@ pipeline{
                         steps{
                                 script{
                                         withDockerRegistry(credentialsId: 'docker-cred',toolName: 'docker'){
-                                                sh "sudo docker push vinay7944/camp:latest"
+                                                sh "docker push vinay7944/camp:latest"
                                         } 
                                 }
                         }
@@ -69,7 +69,7 @@ pipeline{
                         steps{
                             script{
                                 withDockerRegistry(credentialsId: 'docker-cred',toolName: 'docker'){
-                                        sh "sudo docker run -d -p 3000:3000 vinay7944/camp:latest"
+                                        sh "docker run -d -p 3000:3000 vinay7944/camp:latest"
                                 }
                             }
                         }
