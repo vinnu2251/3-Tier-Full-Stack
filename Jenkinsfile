@@ -26,6 +26,8 @@ pipeline{
         }
 
         post{
-            echo "build complete"
+            always{
+                    echo "complete"
+            }
         }
 }
