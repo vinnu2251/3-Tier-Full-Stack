@@ -37,13 +37,15 @@ pipeline{
                         }
                 }
 
-                stage('Docker Build & Tag'){
-                        steps{
-                            script{
-                                withDockerRegistry(credentialsId: 'docker-cred',toolName: 'docker'){
-                                        sh "docker build -t vinay7944/camp:latest ."
+                stage('Docker Build & Tag') {
+                        steps {
+
+                                script {
+                                        withDockerRegistry([credentialsId: 'docker-cred', url: '']) 
+                                        {
+                                                sh 'docker build -t vinay7944/camp:latest .'
+                                        }
                                 }
-                            }
                         }
                 }
 
