@@ -3,6 +3,7 @@ pipeline{
 
         tools{
                 nodejs 'node21'
+                docker 'docker'
         }
 
         environment{
@@ -41,9 +42,9 @@ pipeline{
                         steps {
 
                                 script {
-                                        withDockerRegistry([credentialsId: 'docker-cred', url: '']) 
+                                        withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') 
                                         {
-                                                sh 'docker build -t vinay7944/camp:latest .'
+                                                sh 'sudo docker build -t vinay7944/camp:latest .'
                                         }
                                 }
                         }
@@ -59,7 +60,7 @@ pipeline{
                         steps{
                                 script{
                                         withDockerRegistry(credentialsId: 'docker-cred',toolName: 'docker'){
-                                                sh "docker push vinay7944/camp:latest"
+                                                sh "sudo docker push vinay7944/camp:latest"
                                         } 
                                 }
                         }
@@ -69,7 +70,7 @@ pipeline{
                         steps{
                             script{
                                 withDockerRegistry(credentialsId: 'docker-cred',toolName: 'docker'){
-                                        sh "docker run -d -p 3000:3000 vinay7944/camp:latest"
+                                        sh "sudo docker run -d -p 3000:3000 vinay7944/camp:latest"
                                 }
                             }
                         }
