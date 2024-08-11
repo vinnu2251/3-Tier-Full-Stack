@@ -65,15 +65,27 @@ pipeline{
                         }
                 }
 
-                stage('Docker deploy to local'){
+                stage('Docker to EKS'){
                         steps{
-                            script{
-                                withDockerRegistry(credentialsId: 'docker-cred',toolName: 'docker'){
-                                        sh "docker run -d -p 3000:3000 vinay7944/camp:latest"
-                                }
-                            }
+                                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: ' my-eks-cluster1', contextName: '', credentialsId: 'kube-token', namespace: 'webapps', serverUrl: 'https://CCD283B31AEA0E7BB2594FE427AF5D9C.sk1.ap-south-1.eks.amazonaws.com']]) {
+
+                                                sh "kubectl apply -f Manifests/"
+                                                sleep 60
+                                        }
+                          
                         }
-                }               
+                }
+
+                 stage('Verify the Deployment'){
+                        steps{
+                                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: ' my-eks-cluster1', contextName: '', credentialsId: 'kube-token', namespace: 'webapps', serverUrl: 'https://CCD283B31AEA0E7BB2594FE427AF5D9C.sk1.ap-south-1.eks.amazonaws.com']]) {
+                                        
+                                                sh "kubectl get pods -n webapps"
+                                                sh "kubectl get svc -n webapps"
+                                        }
+                          
+                        }
+                }                    
             
         }
 
